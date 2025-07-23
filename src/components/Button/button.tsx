@@ -26,23 +26,22 @@ export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
  * import { Button } from 'vikingship'
  * ```
  */
-export const Button: FC<ButtonProps> = (props) => {
-  const { 
-    btnType,
-    className,
-    disabled,
-    size,
-    children,
-    href,
-    ...restProps
-  } = props
+export const Button: FC<ButtonProps> = ({
+  btnType = 'default',
+  className,
+  disabled = false,
+  size,
+  children,
+  href,
+  ...restProps
+}) => {
   // btn, btn-lg, btn-primary
   const classes = classNames('btn', className, {
     [`btn-${btnType}`]: btnType,
     [`btn-${size}`]: size,
     'disabled': (btnType === 'link') && disabled
   })
-  if (btnType === 'link' && href ) {
+  if (btnType === 'link' && href) {
     return (
       <a
         className={classes}
@@ -63,11 +62,6 @@ export const Button: FC<ButtonProps> = (props) => {
       </button>
     )
   }
-}
-
-Button.defaultProps = {
-  disabled: false,
-  btnType: 'default'
 }
 
 export default Button;
