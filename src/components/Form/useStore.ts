@@ -1,7 +1,6 @@
 import { useState, useReducer } from 'react'
 import Schema, { RuleItem, ValidateError } from 'async-validator';
-import mapValues from 'lodash-es/mapValues'
-import each from 'lodash-es/each'
+import { mapValues, each } from 'lodash'
 
 export type CustomRuleFunc = ({ getFieldValue }) => RuleItem
 export type CustomRule = RuleItem | CustomRuleFunc
@@ -58,8 +57,8 @@ function fieldsReducer(state: FieldsState, action: FieldsAction): FieldsState {
 
 function useStore(initialValues?: Record<string, any>) {
   // form state
-  const [ form, setForm ] = useState<FormState>({ isValid: true, isSubmitting: false, errors: {} })
-  const [ fields, dispatch ] = useReducer(fieldsReducer, {})
+  const [form, setForm] = useState<FormState>({ isValid: true, isSubmitting: false, errors: {} })
+  const [fields, dispatch] = useReducer(fieldsReducer, {})
   const getFieldValue = (key: string) => {
     return fields[key] && fields[key].value
   }
@@ -75,7 +74,7 @@ function useStore(initialValues?: Record<string, any>) {
     if (initialValues) {
       each(initialValues, (value, name) => {
         if (fields[name]) {
-          dispatch({ type: 'updateValue', name, value})
+          dispatch({ type: 'updateValue', name, value })
         }
       })
     }
@@ -112,7 +111,7 @@ function useStore(initialValues?: Record<string, any>) {
       errors = err.errors
     } finally {
       console.log('errors', isValid)
-      dispatch({ type: 'updateValidateResult', name, value: { isValid, errors }})
+      dispatch({ type: 'updateValidateResult', name, value: { isValid, errors } })
     }
   }
   const validateAllFields = async () => {
@@ -125,7 +124,7 @@ function useStore(initialValues?: Record<string, any>) {
     setForm({ ...form, isSubmitting: true })
     try {
       await validator.validate(valueMap)
-    } catch(e) {
+    } catch (e) {
       isValid = false
       const err = e as ValidateErrorType
       errors = err.fields
@@ -133,9 +132,9 @@ function useStore(initialValues?: Record<string, any>) {
         // errors 中有对应的 key
         if (errors[name]) {
           const itemErrors = errors[name]
-          dispatch({ type: 'updateValidateResult', name, value: { isValid: false, errors: itemErrors }})
+          dispatch({ type: 'updateValidateResult', name, value: { isValid: false, errors: itemErrors } })
         } else if (value.rules.length > 0 && !errors[name]) {
-          dispatch({ type: 'updateValidateResult', name, value: { isValid: true, errors: [] }})
+          dispatch({ type: 'updateValidateResult', name, value: { isValid: true, errors: [] } })
         }
         //  有对应的 rules，并且没有 errors
       })

@@ -29,11 +29,13 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
+    "@types/lodash": "^4.17.20",
     "ajv": "^8.0.0",
     "ajv-keywords": "^5.0.0",
     "async-validator": "^4.1.1",
     "axios": "^0.19.1",
     "classnames": "^2.2.6",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "react-transition-group": "^4.3.0",
     "vikingship": "^1.0.4"
