@@ -20,10 +20,10 @@ interface IMenuContext {
   index: string;
   onSelect?: (selectedIndex: string) => void;
   mode?: MenuMode;
-  defaultOpenSubMenus?: string[];  
+  defaultOpenSubMenus?: string[];
 }
 
-export const MenuContext = createContext<IMenuContext>({index: '0'})
+export const MenuContext = createContext<IMenuContext>({ index: '0' })
 /**
  * 为网站提供导航功能的菜单。支持横向纵向两种模式，支持下拉菜单。
  * 
@@ -33,16 +33,25 @@ export const MenuContext = createContext<IMenuContext>({index: '0'})
  * //然后可以使用 Menu.Item 和 Menu.Submenu 访问选项和子下拉菜单组件
  * ```
  */
-export const Menu: FC<MenuProps> = (props) => {
-  const { className, mode, style, children, defaultIndex, onSelect, defaultOpenSubMenus } = props
-  const [ currentActive, setActive ] = useState(defaultIndex)
+export const Menu: FC<MenuProps> = ({
+  // 使用ES6默认参数替代defaultProps
+  defaultIndex = '0',
+  className,
+  mode = 'horizontal',
+  style,
+  onSelect,
+  defaultOpenSubMenus = [],
+  children
+}) => {
+  // const { className, mode, style, children, defaultIndex, onSelect, defaultOpenSubMenus } = props
+  const [currentActive, setActive] = useState(defaultIndex)
   const classes = classNames('viking-menu', className, {
     'menu-vertical': mode === 'vertical',
     'menu-horizontal': mode !== 'vertical',
   })
   const handleClick = (index: string) => {
     setActive(index)
-    if(onSelect) {
+    if (onSelect) {
       onSelect(index)
     }
   }
@@ -73,10 +82,6 @@ export const Menu: FC<MenuProps> = (props) => {
     </ul>
   )
 }
-Menu.defaultProps = {
-  defaultIndex: '0',
-  mode: 'horizontal',
-  defaultOpenSubMenus: [],
-}
+
 
 export default Menu;
