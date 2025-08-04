@@ -1,4 +1,4 @@
-import React, { FC, useState, createContext, CSSProperties, ReactNode } from 'react'
+import React, { createContext, FC, useState, CSSProperties, ReactNode } from 'react'
 import classNames from 'classnames'
 import { MenuItemProps } from './menuItem'
 
@@ -60,13 +60,13 @@ export const Menu: FC<MenuProps> = ({
 }) => {
   // 使用useState管理当前激活的菜单项
   const [currentActive, setActive] = useState(defaultIndex)
-  
+
   // 构建菜单容器的CSS类名
   const classes = classNames('viking-menu', className, {
     'menu-vertical': mode === 'vertical', // 纵向模式样式
     'menu-horizontal': mode !== 'vertical', // 横向模式样式
   })
-  
+
   /**
    * 处理菜单项点击事件
    * @param index 被点击的菜单项索引
@@ -77,7 +77,7 @@ export const Menu: FC<MenuProps> = ({
       onSelect(index) // 调用外部传入的选择回调
     }
   }
-  
+
   // 构建传递给Context的值
   const passedContext: IMenuContext = {
     index: currentActive ? currentActive : '0', // 当前激活的索引
@@ -85,7 +85,7 @@ export const Menu: FC<MenuProps> = ({
     mode, // 菜单模式
     defaultOpenSubMenus, // 默认打开的子菜单
   }
-  
+
   /**
    * 渲染子组件，为每个子组件注入index属性
    * @returns 处理后的子组件数组
@@ -94,7 +94,7 @@ export const Menu: FC<MenuProps> = ({
     return React.Children.map(children, (child, index) => {
       const childElement = child as React.FunctionComponentElement<MenuItemProps>
       const { displayName } = childElement.type
-      
+
       // 检查子组件是否为MenuItem或SubMenu
       if (displayName === 'MenuItem' || displayName === 'SubMenu') {
         // 克隆子组件并注入index属性
@@ -106,7 +106,7 @@ export const Menu: FC<MenuProps> = ({
       }
     })
   }
-  
+
   return (
     <ul className={classes} style={style} data-testid="test-menu">
       {/* 通过Context.Provider提供菜单状态给子组件 */}
